@@ -1,0 +1,12 @@
+name , age , city
+
+John , 25 , Paris
+Alice,30,London
+Bob , , New York
+John , 25 , Paris
+   ,   ,   
+Claire ,  28, Berlin
+Alice ,30 , London
+Mark,40, 
+,,
+   John,25,Paris   
