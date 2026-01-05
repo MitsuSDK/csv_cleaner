@@ -1,6 +1,6 @@
 def clean_field(value: str) -> str:
     """
-    return the input string with leading and trailing spaces removed.
+    Return the input string with leading and trailing spaces removed.
     """
     start = 0
     end = len(value) - 1
@@ -14,3 +14,19 @@ def clean_field(value: str) -> str:
         end = end -1
         
     return value[start:end+1]
+
+def clean_row(row: list[str]) -> list[str]:
+    """
+    Return the input row with each field cleaned
+   
+    :param row: A list of string values from a csv file
+    :type row: list[str]
+    :return: A list of cleaned string values
+    :rtype: list[str]
+    """
+    cleaned_row = []
+
+    #clean every field contained in a row
+    for field in row:
+        cleaned_row.append(clean_field(field))
+    return cleaned_row
