@@ -22,7 +22,6 @@ def clean_row(row: list[str]) -> list[str]:
     :param row: A list of string values from a csv file
     :type row: list[str]
     :return: A list of cleaned string values
-    :rtype: list[str]
     """
     cleaned_row = []
 
@@ -30,3 +29,11 @@ def clean_row(row: list[str]) -> list[str]:
     for field in row:
         cleaned_row.append(clean_field(field))
     return cleaned_row
+
+def is_empty_row(row: list[str]) -> bool:
+    """
+    Return True if the input row is empty(all fields are empty or the row contains no field)
+    """
+    return (all(field == "" for field in row))
+
+
