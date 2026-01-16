@@ -17,10 +17,9 @@ def clean_field(value: str) -> str:
 
 def clean_row(row: list[str]) -> list[str]:
     """
-    Return the input row with each field cleaned
+    Return the input row with each field cleaned.
    
     :param row: A list of string values from a csv file
-    :type row: list[str]
     :return: A list of cleaned string values
     """
     cleaned_row = []
@@ -32,8 +31,25 @@ def clean_row(row: list[str]) -> list[str]:
 
 def is_empty_row(row: list[str]) -> bool:
     """
-    Return True if the input row is empty(all fields are empty or the row contains no field)
-    """
+    Return True if the input row is empty(all fields are empty or the row contains no field).
+    """ 
     return (all(field == "" for field in row))
 
+def deduplicate_rows(rows: list[list[str]]) -> list[list[str]]:
+    """
+    Return a list of unique rows.
+    
+    :param rows: A list of raws
+    """
+    seen = set()
+    cleaned = []
 
+    for row in rows:
+        #use tuples because only hashable and immuable objects can be put in a set()
+        row_key = tuple(row)
+
+        if row_key not in seen:
+            seen.add(row_key)
+            cleaned.append(row)
+
+    return cleaned
