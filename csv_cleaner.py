@@ -1,3 +1,6 @@
+import csv
+from pathlib import Path
+
 def clean_field(value: str) -> str:
     """
     Return the input string with leading and trailing spaces removed.
@@ -64,3 +67,28 @@ def process_rows(rows: list[list[str]]) -> list[list[str]]:
         if not is_empty_row(cleaned_row):
             cleaned.append(cleaned_row)
     return deduplicate_rows(cleaned)
+
+def read_csv(filepath: str) -> list[list[str]]:
+    """
+    Read a csv file and return its rows
+    """
+    rows=[]
+    with open(filepath, newline="", encoding="utf-8") as file:
+        reader = csv.reader(file)
+        for row in reader:
+            rows.append(row)
+    return rows
+
+def write_csv(filepath: str, rows: list[list[str]]) -> None:
+    """
+    Write rows to a CSV file, creating parent directories if needed.
+    """
+    path = Path(filepath)
+
+    # create parent directories if they don't exist
+    path.parent.mkdir(parents=True, exist_ok=True)
+
+    with path.open("w", newline="", encoding="utf-8") as file:
+        writer = csv.writer(file)
+        for row in rows:
+            writer.writerow(row)
