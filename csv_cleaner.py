@@ -53,3 +53,14 @@ def deduplicate_rows(rows: list[list[str]]) -> list[list[str]]:
             cleaned.append(row)
 
     return cleaned
+
+def process_rows(rows: list[list[str]]) -> list[list[str]]:
+    """
+    Return a list of cleaned rows
+    """
+    cleaned = []
+    for row in rows:
+        cleaned_row = clean_row(row)
+        if not is_empty_row(cleaned_row):
+            cleaned.append(cleaned_row)
+    return deduplicate_rows(cleaned)
