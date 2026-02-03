@@ -1,5 +1,6 @@
 import csv
 from pathlib import Path
+import argparse
 
 def clean_field(value: str) -> str:
     """
@@ -57,7 +58,7 @@ def deduplicate_rows(rows: list[list[str]]) -> list[list[str]]:
 
     return cleaned
 
-def process_rows(rows: list[list[str]]) -> list[list[str]]:
+def process_rows(rows: list[list[str]], dedupe: bool = 0) -> list[list[str]]:
     """
     Return a list of cleaned rows
     """
@@ -66,7 +67,9 @@ def process_rows(rows: list[list[str]]) -> list[list[str]]:
         cleaned_row = clean_row(row)
         if not is_empty_row(cleaned_row):
             cleaned.append(cleaned_row)
-    return deduplicate_rows(cleaned)
+    if dedupe:
+        cleaned = deduplicate_rows(cleaned)
+    return cleaned
 
 def read_csv(filepath: str) -> list[list[str]]:
     """
@@ -92,3 +95,34 @@ def write_csv(filepath: str, rows: list[list[str]]) -> None:
         writer = csv.writer(file)
         for row in rows:
             writer.writerow(row)
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(
+        description="Clean a CSV file by normalizing fields, removing empty raws, and deduplicating if precised."
+    )
+
+    parser.add_argument(
+        "input",
+        help="Path to the input CSV file"
+    )
+
+    parser.add_argument(
+        "output",
+        help="Path to the output CSV file"
+    )
+
+    parser.add_argument(
+        "--no-dedupe",
+        action="store_true",
+        help="Disable row deduplication"
+    )
+
+    args = parser.parse_args()
+
+    rows = read_csv(args.input)
+    cleaned = process_rows(rows, dedupe=not args.no_dedupe)
+    write_csv(args.output, cleaned)
+
+if __name__ == "__main__":
+    main()
